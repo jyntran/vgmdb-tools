@@ -19,21 +19,12 @@ def album_search():
 			album_id = i
 			r = requests.get('http://vgmdb.info/album/' + album_id + '?format=json')
 			if r.status_code==200:
-				resp = Response(response=r, status=200, mimetype='application/json')
+				return Response(response=r, status=200, mimetype='application/json', content_type='application/json, charset=utf-8')
 			else:
 				resp = r.text
-			return resp
+				return resp
 	return 'ERROR: album not found'
 
-@app.route('/album-result')
-def album_result():
-	return
-
-#	if request.headers['Content-Type'] == 'text/plain':
-#		return "Text Message: " + request.data
-#	else:
-#		return "415 Unsupported Media Type"
-	
 if __name__ == '__main__':
 	application.run(host='0.0.0.0')
 
