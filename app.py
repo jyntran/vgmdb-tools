@@ -4,11 +4,11 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-	return '<h1>VGMDB tools</h1>'
+	return '<h1>VGMDB tools</h1><p><a href="/album">Album Tagging Tool</a> - Gives basic information about VGMDB albums in an easy-to-copypasta way to make tagging easier</p>'
 
 @app.route('/album')
 def album():
-	return '<h1>VGMDB tools</h1><h2>Album</h2><form action="/album-tracks" method="POST"><label>URL: </label><input type="text" name="albuminput"><input type="submit" value="Submit"></input></form>'
+	return '<h1>VGMDB tools</h1><h2>Album Tagging</h2><form action="/album-tagging" method="POST"><label>URL/ID number of VGMDB album: </label><input type="text" name="albuminput"><input type="submit" value="Submit"></input></form>'
 
 @app.route('/album-search', methods = [ 'POST' ])
 def album_search():
@@ -25,8 +25,8 @@ def album_search():
 				return resp
 	return 'ERROR: album not found'
 
-@app.route('/album-tracks', methods = [ 'POST' ])
-def album_tracks():
+@app.route('/album-tagging', methods = [ 'POST' ])
+def album_tagging():
 	album_input = request.form['albuminput']
 	tokens = album_input.split("/")
 	for i in tokens:
@@ -39,6 +39,13 @@ def album_tracks():
 				resp = r.text
 				return resp
 	if data is not None:
+		# get album names
+		names = ''
+		if data['names']:
+			print(data['names'])
+			for l,n in data['names'].iteritems():
+				names = names + '<p><label>' + l + '</label> <input value="' + n + '"/></p>'
+
 		# get cover art
 		cover = ''
 		if data['covers']:
@@ -58,7 +65,10 @@ def album_tracks():
 				for t in d['tracks']:
 					tracks[l]['l'].append(t['names'][l])
 					tracks[l]['t'] = tracks[l]['t'] + t['names'][l] + '\n'
-		result = '<h1>Album Tracklist</h1><h2>' + data['name'] + '</h2>'
+		# combine result
+		result = '<h1>Album Tagging</h1><h2>' + data['name'] + '</h2>'
+		if names:
+			result = result + names
 		for l in languages:
 			result = result + '<h3>' + l + '</h3><textarea>' + tracks[l]['t'] + '</textarea>'
 		if cover:
