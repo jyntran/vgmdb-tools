@@ -1,0 +1,55 @@
+{% extends "album_tagging.html" %}
+{% block body %}
+
+{% if error %}
+  {{error}}
+{% endif %}
+
+{% if data %}
+
+<h2>{{data.name}}</h2>
+
+<div class="row">
+{% if data.cover %}
+    <div class="column column-25">
+      <img src="{{data.cover}}"/>
+    </div>
+{% endif %}
+
+{% if data.names %}
+<div class="column">
+  <table>
+    <thead>
+      <tr>
+        <th>Language Tag</th>
+        <th>Album Name</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for lang, name in data.names.iteritems() %}
+      <tr>
+       <td>{{lang|e}}</td>
+       <td>{{name|e}}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+</div>
+
+{% if data.tracklist %}
+<h3>Tracklist</h3>
+<div class="row">
+{% for lang, tracks in data.tracklist.iteritems()  %}
+  <div class="column">
+    <label>{{lang|e}}</label>
+    <textarea>{{tracks.t|e}}</textarea>
+  </div>
+{% endfor %}
+</div>
+{% endif %}
+
+{% endif %}
+  
+{% endblock %}

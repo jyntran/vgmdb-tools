@@ -1,14 +1,20 @@
 import requests
-from flask import Flask, request, json, jsonify, Response
+from flask import Flask, request, json, jsonify, Response, render_template
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-	return '<h1>VGMDB tools</h1><p><a href="/album">Album Tagging Tool</a> - Gives basic information about VGMDB albums in an easy-to-copypasta way to make tagging easier</p>'
+        links = [
+            { 'title': 'Album Tagging Tool',
+              'url': '/album',
+              'description': 'Gives basic information about VGMDB albums in an easy-to-copypasta way to make tagging easier'
+            }
+        ]
+        return render_template('nav.html', links=links)
 
 @app.route('/album')
 def album():
-	return '<h1>VGMDB tools</h1><h2>Album Tagging</h2><form action="/album-tagging" method="POST"><label>URL/ID number of VGMDB album: </label><input type="text" name="albuminput"><input type="submit" value="Submit"></input></form>'
+        return render_template('album_tagging.html')
 
 @app.route('/album-search', methods = [ 'POST' ])
 def album_search():
@@ -27,6 +33,8 @@ def album_search():
 
 @app.route('/album-tagging', methods = [ 'POST' ])
 def album_tagging():
+        data = None
+        info = {}
 	album_input = request.form['albuminput']
 	tokens = album_input.split("/")
 	for i in tokens:
@@ -39,21 +47,18 @@ def album_tagging():
 				resp = r.text
 				return resp
 	if data is not None:
-		# get album names
-		names = ''
+                info['name'] = data['name']
 		if data['names']:
-			print(data['names'])
-			for l,n in data['names'].iteritems():
-				names = names + '<p><label>' + l + '</label> <input value="' + n + '"/></p>'
+                        info['names'] = data['names']
 
 		# get cover art
-		cover = ''
 		if data['covers']:
 			for c in data['covers']:
 				if c['name']=='Front':
 					cover = c['full']
+                                        info['cover'] = cover
 
-		# get all languages
+		# get all languages and tracks
 		discs = data['discs']
 		track = discs[0]['tracks'][0]
 		languages = track['names']
@@ -65,17 +70,12 @@ def album_tagging():
 				for t in d['tracks']:
 					tracks[l]['l'].append(t['names'][l])
 					tracks[l]['t'] = tracks[l]['t'] + t['names'][l] + '\n'
-		# combine result
-		result = '<h1>Album Tagging</h1><h2>' + data['name'] + '</h2>'
-		if names:
-			result = result + names
-		for l in languages:
-			result = result + '<h3>' + l + '</h3><textarea>' + tracks[l]['t'] + '</textarea>'
-		if cover:
-			result = result + '<h2>Cover Art</h2><img src="' + cover + '"/>'
-		return result
+                info['tracklist'] = tracks
+
+		return render_template('album_tagging_result.html', data=info)
 	else:
-		return 'ERROR: album not found'
+                error = "Error: album not found"
+		return render_template('album_tagging_result.html', error=error)
 
 if __name__ == '__main__':
 	app.run()
