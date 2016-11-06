@@ -1,14 +1,20 @@
 import requests
-from flask import Flask, request, json, jsonify, Response
+from flask import Flask, request, json, jsonify, Response, render_template
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-	return '<h1>VGMDB tools</h1><p><a href="/album">Album Tagging Tool</a> - Gives basic information about VGMDB albums in an easy-to-copypasta way to make tagging easier</p>'
+        links = [
+            { 'title': 'Album Tagging Tool',
+              'url': '/album',
+              'description': 'Gives basic information about VGMDB albums in an easy-to-copypasta way to make tagging easier'
+            }
+        ]
+        return render_template('nav.html', links=links)
 
 @app.route('/album')
 def album():
-	return '<h1>VGMDB tools</h1><h2>Album Tagging</h2><form action="/album-tagging" method="POST"><label>URL/ID number of VGMDB album: </label><input type="text" name="albuminput"><input type="submit" value="Submit"></input></form>'
+        return render_template('album_tagging.html')
 
 @app.route('/album-search', methods = [ 'POST' ])
 def album_search():
