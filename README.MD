@@ -7,7 +7,7 @@ Uses Flask, a lightweight Python framework.
 
 - Provides names of the album in different languages, tracklists in different languages, and highest-resolution cover art
 - TODO
-	- deploy Flask app properly
+	~~- deploy Flask app properly~~
+	~~- refactor to use templates~~
 	- add support for notes, artists (composers, arrangers, performers)
-	- refactor to use templates
 
