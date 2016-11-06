@@ -1,5 +1,5 @@
 import requests
-from flask import Flask, request, json, jsonify, Response, render_template
+from flask import Flask, request, json, jsonify, Response, render_template, flash
 app = Flask(__name__)
 
 @app.route('/')
@@ -25,10 +25,13 @@ def album_search():
 			album_id = i
 			r = requests.get('http://vgmdb.info/album/' + album_id + '?format=json')
 			if r.status_code==200:
-				return Response(response=r, status=200, mimetype='application/json', content_type='application/json, charset=utf-8')
+                                flash('Success')
+				return Response(response=r, status=200, mimetype='application/json', content_type='application/json', charset='utf-8')
 			else:
 				resp = r.text
+                                flash('Error')
 				return resp
+        flash('Error')
 	return 'ERROR: album not found'
 
 @app.route('/album-tagging', methods = [ 'POST' ])
