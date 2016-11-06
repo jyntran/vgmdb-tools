@@ -34,6 +34,7 @@ def album_search():
 @app.route('/album-tagging', methods = [ 'POST' ])
 def album_tagging():
         data = None
+        info = {}
 	album_input = request.form['albuminput']
 	tokens = album_input.split("/")
 	for i in tokens:
@@ -46,22 +47,17 @@ def album_tagging():
 				resp = r.text
 				return resp
 	if data is not None:
-		# get album names
-		names = ''
 		if data['names']:
-			print(data['names'])
-			for l,n in data['names'].iteritems():
-				names = names + '<p><label>' + l + '</label> <input value="' + n + '"/></p>'
+                        info['names'] = data['names']
 
 		# get cover art
-		cover = ''
 		if data['covers']:
 			for c in data['covers']:
 				if c['name']=='Front':
 					cover = c['full']
-                                        data['cover'] = cover
+                                        info['cover'] = cover
 
-		# get all languages
+		# get all languages and tracks
 		discs = data['discs']
 		track = discs[0]['tracks'][0]
 		languages = track['names']
@@ -73,24 +69,12 @@ def album_tagging():
 				for t in d['tracks']:
 					tracks[l]['l'].append(t['names'][l])
 					tracks[l]['t'] = tracks[l]['t'] + t['names'][l] + '\n'
-                data['languages'] = languages
-                data['tracklist'] = tracks
+                info['tracklist'] = tracks
 
-		# combine result
-		result = '<h1>Album Tagging</h1><h2>' + data['name'] + '</h2>'
-		if names:
-			result = result + names
-		for l in languages:
-			result = result + '<h3>' + l + '</h3><textarea>' + tracks[l]['t'] + '</textarea>'
-		if cover:
-			result = result + '<h2>Cover Art</h2><img src="' + cover + '"/>'
-		return render_template('album_tagging_result.html', data=data)
-#		return render_template('album_tagging_result.html', data=result)
-#		return result
+		return render_template('album_tagging_result.html', data=info)
 	else:
                 error = "Error: album not found"
 		return render_template('album_tagging_result.html', error=error)
-#		return 'ERROR: album not found'
 
 if __name__ == '__main__':
 	app.run()
