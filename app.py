@@ -33,6 +33,7 @@ def album_search():
 
 @app.route('/album-tagging', methods = [ 'POST' ])
 def album_tagging():
+        data = None
 	album_input = request.form['albuminput']
 	tokens = album_input.split("/")
 	for i in tokens:
@@ -58,6 +59,7 @@ def album_tagging():
 			for c in data['covers']:
 				if c['name']=='Front':
 					cover = c['full']
+                                        data['cover'] = cover
 
 		# get all languages
 		discs = data['discs']
@@ -71,6 +73,9 @@ def album_tagging():
 				for t in d['tracks']:
 					tracks[l]['l'].append(t['names'][l])
 					tracks[l]['t'] = tracks[l]['t'] + t['names'][l] + '\n'
+                data['languages'] = languages
+                data['tracklist'] = tracks
+
 		# combine result
 		result = '<h1>Album Tagging</h1><h2>' + data['name'] + '</h2>'
 		if names:
@@ -79,9 +84,13 @@ def album_tagging():
 			result = result + '<h3>' + l + '</h3><textarea>' + tracks[l]['t'] + '</textarea>'
 		if cover:
 			result = result + '<h2>Cover Art</h2><img src="' + cover + '"/>'
-		return result
+		return render_template('album_tagging_result.html', data=data)
+#		return render_template('album_tagging_result.html', data=result)
+#		return result
 	else:
-		return 'ERROR: album not found'
+                error = "Error: album not found"
+		return render_template('album_tagging_result.html', error=error)
+#		return 'ERROR: album not found'
 
 if __name__ == '__main__':
 	app.run()
