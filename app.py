@@ -47,6 +47,7 @@ def album_tagging():
 				resp = r.text
 				return resp
 	if data is not None:
+                info['name'] = data['name']
 		if data['names']:
                         info['names'] = data['names']
 
