@@ -93,6 +93,10 @@ def album_tagging():
 					tracks[l]['t'] = tracks[l]['t'] + t['names'][l] + '\n'
                 info['tracklist'] = tracks
 
+                # get notes
+                if data['notes']:
+                    info['notes'] = data['notes']
+
 		return render_template('album_tagging_result.html', data=info)
 	else:
                 error = "Error: album not found"

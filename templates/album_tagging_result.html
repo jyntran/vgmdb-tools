@@ -7,10 +7,10 @@
 
 {% if data %}
 
-<h2>{{data.name}}</h2>
-
 {% if data.link %}
-    <a class="button" href="{{data.link|e}}">VGMdb.net</a>
+    <a href="{{data.link|e}}"><h2>{{data.name}}</h2></a>
+{% else %}
+    <h2>{{data.name|e}}</h2>
 {% endif %}
 
 <div class="row">
@@ -148,6 +148,11 @@
   </div>
 {% endfor %}
 </div>
+{% endif %}
+
+{% if data.notes %}
+<h3>Notes</h3>
+<pre>{{data.notes}}</pre>
 {% endif %}
 
 {% endif %}
