@@ -53,13 +53,31 @@ def album_tagging():
                 info['name'] = data['name']
 		if data['names']:
                         info['names'] = data['names']
+                if data['link']:
+                        info['link'] = 'http://vgmdb.net/' +  data['link']
+
+                # get artists
+                if data['composers']:
+                        info['composers'] = []
+                        for c in data['composers']:
+                                info['composers'].append(c['names'])
+                if data['performers']:
+                        info['performers'] = []
+                        for p in data['performers']:
+                                info['performers'].append(p['names'])
+                if data['lyricists']:
+                        info['lyricists'] = []
+                        for l in data['lyricists']:
+                                info['lyricists'].append(l['names'])
+                if data['arrangers']:
+                        info['arrangers'] = []
+                        for a in data['arrangers']:
+                                info['arrangers'].append(a['names'])
 
 		# get cover art
 		if data['covers']:
 			for c in data['covers']:
-				if c['name']=='Front':
-					cover = c['full']
-                                        info['cover'] = cover
+                                info['cover'] = data['covers'][0]['full']
 
 		# get all languages and tracks
 		discs = data['discs']
@@ -74,6 +92,10 @@ def album_tagging():
 					tracks[l]['l'].append(t['names'][l])
 					tracks[l]['t'] = tracks[l]['t'] + t['names'][l] + '\n'
                 info['tracklist'] = tracks
+
+                # get notes
+                if data['notes']:
+                    info['notes'] = data['notes']
 
 		return render_template('album_tagging_result.html', data=info)
 	else:

@@ -7,7 +7,11 @@
 
 {% if data %}
 
-<h2>{{data.name}}</h2>
+{% if data.link %}
+    <a href="{{data.link|e}}"><h2>{{data.name}}</h2></a>
+{% else %}
+    <h2>{{data.name|e}}</h2>
+{% endif %}
 
 <div class="row">
 {% if data.cover %}
@@ -38,6 +42,102 @@
 {% endif %}
 </div>
 
+{% if data.composers %}
+<h3>Composers</h3>
+<div class="row">
+<div class="column">
+  <table>
+    <thead>
+      <tr>
+      </tr>
+    </thead>
+    <tbody>
+    {% for c in data.composers %}
+      <tr>
+       {% for lang, name in c.iteritems() %}
+           <td>{{lang|e}}</td>
+           <td>{{name|e}}</td>
+       {% endfor %}
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+</div>
+{% endif %}
+
+{% if data.performers %}
+<h3>Performers</h3>
+<div class="row">
+<div class="column">
+  <table>
+    <thead>
+      <tr>
+      </tr>
+    </thead>
+    <tbody>
+    {% for p in data.performers %}
+      <tr>
+       {% for lang, name in p.iteritems() %}
+           <td>{{lang|e}}</td>
+           <td>{{name|e}}</td>
+       {% endfor %}
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+</div>
+{% endif %}
+
+{% if data.lyricists %}
+<h3>Lyricists</h3>
+<div class="row">
+<div class="column">
+  <table>
+    <thead>
+      <tr>
+      </tr>
+    </thead>
+    <tbody>
+    {% for l in data.lyricists %}
+      <tr>
+       {% for lang, name in l.iteritems() %}
+           <td>{{lang|e}}</td>
+           <td>{{name|e}}</td>
+       {% endfor %}
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+</div>
+{% endif %}
+
+{% if data.arrangers %}
+<h3>Arrangers</h3>
+<div class="row">
+<div class="column">
+  <table>
+    <thead>
+      <tr>
+      </tr>
+    </thead>
+    <tbody>
+    {% for a in data.arrangers %}
+      <tr>
+       {% for lang, name in a.iteritems() %}
+           <td>{{lang|e}}</td>
+           <td>{{name|e}}</td>
+       {% endfor %}
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+</div>
+{% endif %}
+
 {% if data.tracklist %}
 <h3>Tracklist</h3>
 <div class="row">
@@ -48,6 +148,11 @@
   </div>
 {% endfor %}
 </div>
+{% endif %}
+
+{% if data.notes %}
+<h3>Notes</h3>
+<pre>{{data.notes}}</pre>
 {% endif %}
 
 {% endif %}
