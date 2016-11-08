@@ -1,4 +1,9 @@
 img {
   width: 100%;
-  max-width: 200px;
+}
+
+@media screen and (min-width: 320px) {
+  img {
+    max-width: 500px;
+  }
 }
