@@ -7,7 +7,7 @@ def index():
         links = [
             { 'title': 'Album Tagging Tool',
               'url': '/album',
-              'description': 'Gives basic information about VGMDB albums in an easy-to-copypasta way to make tagging easier'
+              'description': 'Gives basic information about VGMdb albums in an easy-to-copy-paste way to make tagging easier'
             }
         ]
         return render_template('nav.html', links=links)
@@ -104,5 +104,4 @@ def album_tagging():
 
 if __name__ == '__main__':
 	app.run()
-#	application.run(host='0.0.0.0')
 
