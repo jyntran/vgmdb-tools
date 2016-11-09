@@ -144,7 +144,7 @@
 {% for lang, tracks in data.tracklist.iteritems()  %}
   <div class="column">
     <label>{{lang|e}}</label>
-    <textarea>{{tracks.t|e}}</textarea>
+    <textarea readonly>{{tracks.t|e}}</textarea>
   </div>
 {% endfor %}
 </div>
