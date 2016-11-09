@@ -141,10 +141,19 @@
 {% if data.tracklist %}
 <h3>Tracklist</h3>
 <div class="row">
-{% for lang, tracks in data.tracklist.iteritems()  %}
+{% for lang, tracks in data.tracklist.iteritems()|sort  %}
   <div class="column">
     <label>{{lang|e}}</label>
     <textarea readonly>{{tracks.t|e}}</textarea>
+    <!--
+    <div class="container">
+    <ol>
+      {% for track in tracks.l %}
+        <li>{{track|e}}</li>
+      {% endfor %}
+    </ol>
+    </div>
+    -->
   </div>
 {% endfor %}
 </div>
