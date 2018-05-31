@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% block body %}
+  <div class="container tool">
   <h2>Album Tagging Tool</h2>
   <form action="/album-tagging" method="POST">
     <fieldset>
@@ -8,5 +9,6 @@
     <input type="submit" value="Submit"></input>
     </fieldset>
   </form>
+  </div>
   {% block result %}{% endblock %}
 {% endblock %}
