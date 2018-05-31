@@ -1,14 +1,70 @@
-.tool-container {
-  background: #f7f7f7;
+.tool.container {
+  background: #1B273D;
+  border-radius: 4px;
   padding: 2rem 2rem 0 2rem;
 }
 
-input[type="text"] {
+body {
+  background: #001122;
+  color: #ccc;
+}
+
+a {
+  color: #ccffff;
+}
+
+input[type="text"],
+textarea {
   background-color: white;
 }
 
 img {
   width: 100%;
+}
+
+pre {
+  background: #2F364F;
+  border: none;
+  white-space: pre-line;
+  padding: 1em;
+}
+
+ol {
+  margin-left: 2em;
+}
+
+.header {
+  background: #1B273D;
+  text-align: center;
+}
+
+.header h1 {
+  padding: .2em;
+}
+
+.header h1 a {
+  color: #eee;
+}
+
+.button, button, input[type='button'], input[type='reset'], input[type='submit'] {
+  background: #001122;
+  border-color: #001122;
+}
+
+.row {
+  margin-bottom: 1em;
+}
+
+table {
+  /*background: #1B273D;*/
+}
+
+th, td {
+  border-color: rgba(255,255,255,.3);
+}
+
+table tr:first-child td {
+  border-top: .1rem solid rgba(255,255,255,.3);
 }
 
 @media screen and (min-width: 320px) {

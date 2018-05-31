@@ -7,6 +7,17 @@
 
 {% if data %}
 
+<h2>Instructions (foobar2000)</h2>
+<div class="row">
+    <ol>
+    <li>Download album art.</li>
+    <li>Copy album name. On foobar2000, select all tracks and tag album name.</li>
+    <li>If multiple artists, add "Various Artists" as album artist.</li>
+    <li>Copy tracklist. On foobar2000, select all tracks and choose Clipboard option. Tag as %title%.</li>
+    <li>Copy artist name. On foobar2000, select all with same artist and tag artist name.</li>
+    </ol>
+</div>
+
 {% if data.link %}
     <a href="{{data.link|e}}"><h2>{{data.name}}</h2></a>
 {% else %}
@@ -47,10 +58,6 @@
 <div class="row">
 <div class="column">
   <table>
-    <thead>
-      <tr>
-      </tr>
-    </thead>
     <tbody>
     {% for c in data.composers %}
       <tr>
